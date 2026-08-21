@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { db } from "@/lib/db";
 import { products, productImages } from "@/lib/schema";
 import { and, eq, ilike, desc } from "drizzle-orm";

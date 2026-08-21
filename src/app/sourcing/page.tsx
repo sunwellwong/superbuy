@@ -1,3 +1,4 @@
+export const runtime = "nodejs";
 import { db } from "@/lib/db";
 import { sourcingRequests } from "@/lib/schema";
 import { getCurrentUser } from "@/lib/auth";
