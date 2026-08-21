@@ -1,4 +1,4 @@
-export const runtime = "nodejs";
+export const runtime = "edge";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/db";
 import { cartItems, products, orders, orderItems, users } from "@/lib/schema";

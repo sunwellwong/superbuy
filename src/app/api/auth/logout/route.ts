@@ -1,4 +1,4 @@
-export const runtime = "nodejs";
+export const runtime = "edge";
 import { NextResponse } from "next/server";
 import { SESSION_COOKIE } from "@/lib/auth";
 

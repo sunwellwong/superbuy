@@ -1,4 +1,4 @@
-export const runtime = "nodejs";
+export const runtime = "edge";
 import { db } from "@/lib/db";
 import { orders, users, orderItems, products } from "@/lib/schema";
 import { getCurrentUser } from "@/lib/auth";
