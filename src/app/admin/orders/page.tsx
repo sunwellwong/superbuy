@@ -13,6 +13,7 @@ const labels: Record<string, string> = {
   cancelled: "Cancelled",
 };
 
+export const dynamic = "force-dynamic";
 export default async function AdminOrders() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");

@@ -5,6 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { ProductForm, CsvImport } from "@/components/ProductActions";
 
+export const dynamic = "force-dynamic";
 export default async function AdminProducts() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");

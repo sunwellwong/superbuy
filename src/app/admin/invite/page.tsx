@@ -5,6 +5,7 @@ import { eq, desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { InviteGen } from "@/components/AdminActions";
 
+export const dynamic = "force-dynamic";
 export default async function AdminInvite() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");

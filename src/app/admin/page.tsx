@@ -5,6 +5,7 @@ import { eq, sql, desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
 export default async function AdminDashboard() {
   const user = await getCurrentUser();
   if (!user) redirect("/login");

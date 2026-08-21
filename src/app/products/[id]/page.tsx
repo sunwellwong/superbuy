@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/ProductActions";
 
+export const dynamic = "force-dynamic";
 export default async function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const [p] = await db.select().from(products).where(eq(products.id, id)).limit(1);

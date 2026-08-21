@@ -4,12 +4,14 @@ import { and, eq, ilike, desc } from "drizzle-orm";
 import Link from "next/link";
 import { NameSearch } from "@/components/SearchBox";
 
+export const dynamic = "force-dynamic";
 export default async function ProductsPage({
   searchParams,
 }: {
-  searchParams: { q?: string };
+  searchParams: Promise<{ q?: string }>;
 }) {
-  const q = searchParams.q?.trim();
+  const { q: rawQ } = await searchParams;
+  const q = rawQ?.trim();
   const conditions = [eq(products.status, "active")];
   if (q) conditions.push(ilike(products.name, `%${q}%`));
 
