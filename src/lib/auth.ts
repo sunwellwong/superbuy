@@ -44,7 +44,8 @@ export async function verifyToken(token: string): Promise<SessionPayload | null>
 }
 
 export async function getCurrentUser() {
-  const token = cookies().get(SESSION_COOKIE)?.value;
+  const cookieStore = await cookies();
+  const token = cookieStore.get(SESSION_COOKIE)?.value;
   if (!token) return null;
   const payload = await verifyToken(token);
   if (!payload) return null;

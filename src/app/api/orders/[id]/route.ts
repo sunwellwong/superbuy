@@ -7,15 +7,16 @@ import { z } from "zod";
 
 export async function GET(
   _req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const [order] = await db
     .select()
     .from(orders)
-    .where(eq(orders.id, params.id))
+    .where(eq(orders.id, id))
     .limit(1);
   if (!order) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
@@ -36,7 +37,7 @@ export async function GET(
     .from(orderItems)
     .innerJoin(products, eq(orderItems.productId, products.id))
     .leftJoin(productImages, eq(productImages.productId, products.id))
-    .where(eq(orderItems.orderId, params.id));
+    .where(eq(orderItems.orderId, id));
 
   return NextResponse.json({
     order: { ...order, quoteTotal: order.quoteTotal != null ? Number(order.quoteTotal) : null },
@@ -52,8 +53,9 @@ const patchSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const user = await getCurrentUser();
   if (!user || user.role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -72,7 +74,7 @@ export async function PATCH(
         status: "pending_payment",
         updatedAt: new Date(),
       })
-      .where(eq(orders.id, params.id));
+      .where(eq(orders.id, id));
   } else {
     await db
       .update(orders)
@@ -81,7 +83,7 @@ export async function PATCH(
         status: "completed",
         updatedAt: new Date(),
       })
-      .where(eq(orders.id, params.id));
+      .where(eq(orders.id, id));
   }
 
   return NextResponse.json({ ok: true });

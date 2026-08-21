@@ -4,8 +4,9 @@ import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { AddToCart } from "@/components/ProductActions";
 
-export default async function ProductDetail({ params }: { params: { id: string } }) {
-  const [p] = await db.select().from(products).where(eq(products.id, params.id)).limit(1);
+export default async function ProductDetail({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
+  const [p] = await db.select().from(products).where(eq(products.id, id)).limit(1);
   if (!p) notFound();
 
   const [img] = await db

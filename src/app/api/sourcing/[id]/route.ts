@@ -13,8 +13,9 @@ const patchSchema = z.object({
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params;
   const user = await getCurrentUser();
   if (!user || user.role !== "admin") {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
@@ -39,6 +40,6 @@ export async function PATCH(
     if (!p) return NextResponse.json({ error: "Linked product not found" }, { status: 400 });
   }
 
-  await db.update(sourcingRequests).set(set).where(eq(sourcingRequests.id, params.id));
+  await db.update(sourcingRequests).set(set).where(eq(sourcingRequests.id, id));
   return NextResponse.json({ ok: true });
 }
