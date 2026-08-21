@@ -1,12 +1,17 @@
 // CLIP image embedding that runs in the BROWSER (WASM backend).
 // The server never loads the model — this keeps image search compatible with
 // Cloudflare Pages (Workers runtime has no native addons and tight CPU limits).
-// Imported lazily so it is never bundled into server-side rendering.
+//
+// We load transformers.js at runtime from a CDN with `webpackIgnore` so webpack
+// never tries to bundle the package (its Node built-ins like `node:stream/web`
+// break the browser build). The model weights are still fetched from HuggingFace
+// at runtime by transformers.js itself.
+const TRANSFORMERS_CDN = "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/+esm";
 let extractor: any = null;
 
 export async function getClipEmbedding(input: string | Blob): Promise<number[]> {
   if (!extractor) {
-    const mod: any = await import("@xenova/transformers");
+    const mod: any = await import(/* webpackIgnore: true */ TRANSFORMERS_CDN);
     extractor = await mod.pipeline(
       "image-feature-extraction",
       "Xenova/clip-vit-base-patch32"
