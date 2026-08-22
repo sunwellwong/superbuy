@@ -42,5 +42,9 @@
     "tsx": "^4.16.2",
     "typescript": "^5.5.3",
     "wrangler": "^3.78.0"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-arm64": "0.15.18",
+    "@esbuild/linux-x64": "0.15.18"
   }
 }
