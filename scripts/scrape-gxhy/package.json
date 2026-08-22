@@ -1,0 +1,17 @@
+{
+  "name": "scrape-gxhy",
+  "version": "1.0.0",
+  "description": "Scrape gxhy1688.com products into a superbuyluxe-importable CSV (dedup + first image only + no price).",
+  "type": "module",
+  "scripts": {
+    "inspect": "node scrape.mjs inspect",
+    "scrape": "node scrape.mjs scrape",
+    "ddp": "node ddp-price.mjs"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.47.2"
+  }
+}

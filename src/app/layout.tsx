@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 import { Nav } from "@/components/Nav";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 
 export const metadata = {
   title: "SuperBuyLuxe — Private B2B Sourcing",
@@ -15,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="container" style={{ paddingTop: 24, paddingBottom: 56 }}>
           {children}
         </main>
+        <FloatingWhatsApp />
       </body>
     </html>
   );

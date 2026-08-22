@@ -89,3 +89,17 @@ a {
   margin-bottom: 6px;
   display: block;
 }
+
+/* WhatsApp floating bubble — gentle breathing pulse (mirrors vaplynk) */
+@keyframes wa-float-breath {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+.wa-float-breath {
+  animation: wa-float-breath 2.4s ease-in-out infinite;
+}
