@@ -61,9 +61,23 @@ export const products = pgTable("products", {
   price: numeric("price", { precision: 12, scale: 2 }).notNull().default("0"),
   currency: varchar("currency", { length: 8 }).notNull().default("EUR"),
   stock: integer("stock").notNull().default(0),
+  costCny: numeric("cost_cny", { precision: 12, scale: 2 }),
+  shippingCny: numeric("shipping_cny", { precision: 12, scale: 2 }).notNull().default("150"),
+  profitCny: numeric("profit_cny", { precision: 12, scale: 2 }).notNull().default("150"),
   categoryId: uuid("category_id"),
+  // Flat category/brand names, matching the gxhy1688 "shared source" layout.
+  category: varchar("category", { length: 120 }),
+  brand: varchar("brand", { length: 120 }),
   status: productStatusEnum("status").notNull().default("active"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+// Key/value store for global site settings (e.g. the EUR/CNY exchange rate
+// that drives DDP pricing). `key` is the primary key.
+export const settings = pgTable("settings", {
+  key: varchar("key", { length: 64 }).notNull().primaryKey(),
+  value: text("value"),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 

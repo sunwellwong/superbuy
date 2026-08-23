@@ -5,6 +5,7 @@ import { getCurrentUser } from "@/lib/auth";
 import { eq, desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { ProductForm, CsvImport } from "@/components/ProductActions";
+import { getFxRate, ddpEur } from "@/lib/pricing";
 
 export const dynamic = "force-dynamic";
 export default async function AdminProducts() {
@@ -18,14 +19,21 @@ export default async function AdminProducts() {
       sku: products.sku,
       name: products.name,
       price: products.price,
+      costCny: products.costCny,
+      shippingCny: products.shippingCny,
+      profitCny: products.profitCny,
       currency: products.currency,
       stock: products.stock,
+      category: products.category,
+      brand: products.brand,
       status: products.status,
     })
     .from(products)
     .leftJoin(productImages, eq(productImages.productId, products.id))
     .orderBy(desc(products.createdAt))
     .limit(200);
+
+  const fx = await getFxRate();
 
   return (
     <div>
@@ -37,7 +45,10 @@ export default async function AdminProducts() {
               <tr style={{ textAlign: "left", color: "#6b7280" }}>
                 <th style={{ padding: "6px 0" }}>SKU</th>
                 <th>Name</th>
-                <th>Price</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Cost</th>
+                <th>DDP</th>
                 <th>Stock</th>
                 <th>Status</th>
               </tr>
@@ -47,8 +58,11 @@ export default async function AdminProducts() {
                 <tr key={p.id} style={{ borderTop: "1px solid #eee" }}>
                   <td style={{ padding: "6px 0" }}>{p.sku}</td>
                   <td>{p.name}</td>
+                  <td>{p.category ?? "—"}</td>
+                  <td>{p.brand ?? "—"}</td>
+                  <td>{p.costCny != null ? `${Number(p.costCny).toFixed(0)} CNY` : "—"}</td>
                   <td>
-                    {Number(p.price).toFixed(2)} {p.currency}
+                    {ddpEur(p.costCny, p.shippingCny, p.profitCny, fx, p.price).toFixed(2)} {p.currency}
                   </td>
                   <td>{p.stock}</td>
                   <td>{p.status}</td>
