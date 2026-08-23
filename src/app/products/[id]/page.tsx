@@ -1,4 +1,3 @@
-export const runtime = "edge";
 import { db } from "@/lib/db";
 import { products, productImages } from "@/lib/schema";
 import { eq } from "drizzle-orm";

@@ -1,8 +1,6 @@
-export const runtime = "edge";
 import { db } from "@/lib/db";
 import { products, productImages } from "@/lib/schema";
 import { and, eq, ilike, desc, isNotNull } from "drizzle-orm";
-import Link from "next/link";
 import { NameSearch } from "@/components/SearchBox";
 import { getFxRate, ddpEur } from "@/lib/pricing";
 
@@ -104,7 +102,7 @@ export default async function ProductsPage({
           {CATEGORIES.map((c) => {
             const active = c === cat;
             return (
-              <Link
+              <a
                 key={c}
                 href={`/products${qs({ cat: c === "全部" ? undefined : c, brand: undefined })}`}
                 style={{
@@ -116,10 +114,11 @@ export default async function ProductsPage({
                   background: active ? "#ef4444" : "#f3f4f6",
                   color: active ? "#fff" : "#374151",
                   border: "1px solid " + (active ? "#ef4444" : "transparent"),
+                  cursor: "pointer",
                 }}
               >
                 {c}
-              </Link>
+              </a>
             );
           })}
         </div>
@@ -130,7 +129,7 @@ export default async function ProductsPage({
         <div style={{ marginBottom: 20 }}>
           <div style={{ fontSize: 13, color: "#9ca3af", marginBottom: 8 }}>品牌</div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-            <Link
+            <a
               href={`/products${qs({ cat: cat === "全部" ? undefined : cat, brand: undefined })}`}
               style={{
                 padding: "5px 12px",
@@ -139,14 +138,15 @@ export default async function ProductsPage({
                 textDecoration: "none",
                 background: !brand ? "#111827" : "#f3f4f6",
                 color: !brand ? "#fff" : "#374151",
+                cursor: "pointer",
               }}
             >
               全部品牌
-            </Link>
+            </a>
             {brands.map((b) => {
               const active = b === brand;
               return (
-                <Link
+                <a
                   key={b}
                   href={`/products${qs({ cat: cat === "全部" ? undefined : cat, brand: active ? undefined : b })}`}
                   style={{
@@ -157,10 +157,11 @@ export default async function ProductsPage({
                     background: active ? "#111827" : "#f3f4f6",
                     color: active ? "#fff" : "#374151",
                     border: "1px solid " + (active ? "#111827" : "transparent"),
+                    cursor: "pointer",
                   }}
                 >
                   {b}
-                </Link>
+                </a>
               );
             })}
           </div>
@@ -179,7 +180,7 @@ export default async function ProductsPage({
         }}
       >
         {productsView.map((p) => (
-          <Link key={p.id} href={`/products/${p.id}`} className="card" style={{ display: "block" }}>
+          <a key={p.id} href={`/products/${p.id}`} className="card" style={{ display: "block", cursor: "pointer" }}>
             <div
               style={{
                 height: 150,
@@ -208,7 +209,7 @@ export default async function ProductsPage({
               )}
             </div>
             <div style={{ fontSize: 12, color: "#9ca3af", marginTop: 4 }}>Stock: {p.stock}</div>
-          </Link>
+          </a>
         ))}
       </div>
     </div>
